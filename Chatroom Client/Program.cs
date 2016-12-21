@@ -10,6 +10,7 @@ namespace Chatroom_Client
     {
         static void Main(string[] args)
         {
+            Client client = new Client();
         }
     }
 }
