@@ -13,8 +13,8 @@ namespace Chatroom_Server
         
         static void Main(string[] args)
         {
-            Server server = new Server();
-            Console.ReadKey();
+            Server server = new Server("10.92.158.23", 5150);
+           // Console.ReadKey();
         }
         
     }

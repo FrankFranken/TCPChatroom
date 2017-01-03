@@ -9,12 +9,12 @@ using System.IO;
 
 namespace Chatroom_Server
 {
-    class Server : IObserver<>
+    public class Server
     {
-        //public static Queue<string> chatQueue = new Queue<string>();
-        //public static Dictionary<TcpClient, string> storeUsers = new Dictionary<TcpClient, string>();
+        public static Queue<string> chatQueue = new Queue<string>();
+        string clientUser;
 
-        public Server()
+        public Server(string IPAddress, int Socket)
         {
             TCPListenerSocket();
         }
@@ -25,7 +25,7 @@ namespace Chatroom_Server
                 try
                 {
                     Int32 socket = 5150;
-                    IPAddress localAddress = IPAddress.Parse("10.92.158.23");
+                    IPAddress localAddress = IPAddress.Any;
                     server = new TcpListener(localAddress, socket);
                     server.Start();
                     Byte[] bytes = new Byte[256];
@@ -33,8 +33,9 @@ namespace Chatroom_Server
 
                     while (true)
                     {
-                        Console.Write("Waiting");
+                        Console.Write("Atempting to connect");
                         TcpClient client = server.AcceptTcpClient();
+                        
                         Console.WriteLine("\nConnected");
                         data = null;
                         NetworkStream stream = client.GetStream();
@@ -43,15 +44,19 @@ namespace Chatroom_Server
 
                         while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
                         {
-                            data = System.Text.Encoding.ASCII.GetString(bytes, 0, i);
+
+                            data = Encoding.ASCII.GetString(bytes, 0, i);
                             Console.WriteLine("Received: {0}", data);
-                            data = data.ToUpper();
-                            byte[] msg = System.Text.Encoding.ASCII.GetBytes(data);
+                            data = data.ToLower();                           
+                            byte[] msg = Encoding.ASCII.GetBytes(data);
                             stream.Write(msg, 0, msg.Length);
                             Console.WriteLine("Sent: {0}", data);
+                            
+                           
+                            
                         }
                         client.Close();
-                    }
+                }
                 }
                 catch (SocketException e)
                 {
@@ -64,6 +69,16 @@ namespace Chatroom_Server
                 Console.WriteLine("\nHit enter to continue...");
                 Console.Read();
             }
-        }        
+
+        }
+        public void NewUsers()
+        {
+
+            
+        }
+
+
+
     }
 }
+

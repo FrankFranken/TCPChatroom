@@ -10,7 +10,8 @@ namespace Chatroom_Client
     {
         static void Main(string[] args)
         {
-            Client client = new Client();
+            Client client = new Client("10.92.158.23", 5150);
+           // Console.ReadKey();
         }
     }
 }
